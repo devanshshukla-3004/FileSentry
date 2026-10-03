@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.filesentry-baseline.json
+baseline.json
+reports/*
+!reports/.gitkeep
+testdata/
+.coverage
+.pytest_cache/
