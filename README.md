@@ -23,27 +23,52 @@ FileSentry is a Python command-line tool that records SHA-256 hashes for files i
 
 Clone the repository, then run these commands from its root.
 
-### 1. Create sample files
-**PowerShell**
+### Windows PowerShell
+
+#### 1. Create sample files
 ```powershell
 New-Item -ItemType Directory -Force .\testdata
 Set-Content .\testdata\settings.txt "safe configuration"
 ```
 
-### 2. Create a baseline
+#### 2. Create a baseline
 ```powershell
 python filesentry.py baseline --path .\testdata --baseline .\baseline.json
 ```
 
-### 3. Scan for changes
+#### 3. Scan for changes
 ```powershell
 python filesentry.py scan --path .\testdata --baseline .\baseline.json --report .\reports\scan.json
 ```
 
-### 4. Test detection
+#### 4. Test detection
 ```powershell
 Set-Content .\testdata\settings.txt "changed configuration"
 python filesentry.py scan --path .\testdata --baseline .\baseline.json --report .\reports\after-change.json
+```
+
+### Linux / Kali Linux / macOS
+
+#### 1. Create sample files
+```bash
+mkdir -p ./testdata
+echo "safe configuration" > ./testdata/settings.txt
+```
+
+#### 2. Create a baseline
+```bash
+python3 filesentry.py baseline --path ./testdata --baseline ./baseline.json
+```
+
+#### 3. Scan for changes
+```bash
+python3 filesentry.py scan --path ./testdata --baseline ./baseline.json --report ./reports/scan.json
+```
+
+#### 4. Test detection
+```bash
+echo "changed configuration" > ./testdata/settings.txt
+python3 filesentry.py scan --path ./testdata --baseline ./baseline.json --report ./reports/after-change.json
 ```
 
 The changed file should appear under `MODIFIED`. A scan exits with:
@@ -52,15 +77,30 @@ The changed file should appear under `MODIFIED`. A scan exits with:
 - `2`: invalid input or operational error
 
 ### Exclusions
-Repeat `--exclude` to exclude a directory name or relative path:
+
+Repeat `--exclude` to exclude a directory name or relative path.
+
+**Windows PowerShell**
 ```powershell
 python filesentry.py baseline --path .\testdata --exclude .git --exclude cache
-``
+```
+
+**Linux / Kali Linux / macOS**
+```bash
+python3 filesentry.py baseline --path ./testdata --exclude .git --exclude cache
+```
 
 ## Run tests
+
+**Windows PowerShell**
 ```powershell
 python -m unittest discover -s tests -v
-``
+```
+
+**Linux / Kali Linux / macOS**
+```bash
+python3 -m unittest discover -s tests -v
+```
 
 ## Example report shape
 ```json
